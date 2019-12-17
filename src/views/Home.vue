@@ -1,17 +1,20 @@
 <template>
   <div class="home">
        <h1>To do List App</h1>
-       <!-- <h1>{{data[0]}}</h1> -->
-       <p>{{total}} משימות</p>
-       <p>{{sumDone}} משימות שבוצעו</p>
-              <p>{{sumNotDone}} משימות שנותרו</p>
+       <p>{{total}} Tasks</p>
+       <p>{{sumDone}} Done</p>
+              <p>{{sumNotDone}} To do</p>
        <div>
          <form action="">
-<input type="text" v-model="name">
+<input type="text" v-model="name" placeholder="Add new task..">
 <input type="hidden" v-model="hiddenid">
 
-<button type="submit" v-if="but" @click="addTask()">Send</button>
-<button type="button" v-else @click="sendEdit()">edit</button>
+<button type="submit" class="button button2" v-if="but" @click="addTask()">Send</button>
+<div v-else>
+<button type="button" class="button button2"  @click="sendEdit()">edit</button>
+<button type="button" class="button button2"  @click="but=true; name=null">cancel</button>
+</div>
+
          </form>
 
 
@@ -28,7 +31,7 @@
       <i class="fa fa-times-circle" @click="dell(d.id)"></i>
     </span>
      <span class="edit-item" title="edit">
-        <i class="fas fa-edit" @click="edit(d)"></i>
+        <i class="fa fa-eye" @click="edit(d)"></i>
     </span>
   </span>
 </div>
@@ -80,8 +83,6 @@ methods: {
           
       },
       sendEdit(){
-        // alert(this.hiddenid);
-        //  alert(this.name);
         var temp_id=this.hiddenid;
          var temp_name=this.name;
           this.$http.put("http://127.0.0.1:8000/api/tasks/"+temp_id+"?task_name="+temp_name)
@@ -89,6 +90,7 @@ methods: {
                        location.reload();
                                })
       },
+           
     isDone(r){
         var don = r.done;
         if(don == true){
@@ -167,6 +169,48 @@ line-height:18px;
 box-sizing:border-box;
 margin:0;
 }
+input[type=text] ,input[type=text]:focus, input{
+  border: none;
+  background-color: transparent;
+  border-bottom: 2px solid rgb(215, 219, 224);
+
+  outline: 0;
+    box-shadow: 0;
+    box-sizing: border-box;
+    padding: 12px 0;
+    height: 50%;
+    width: 50%;
+    font-size: 16px;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 26px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+
+
+.button2 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+}
+
+.button2:hover {
+  background-color: #008CBA;
+  color: white;
+}
+
+
 body{
 background:#f8f8f8;
 }
